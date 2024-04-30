@@ -6,24 +6,24 @@ import guitars from "./data";
 const App = () => {
   const [data, setData] = useState(() => guitars);
 
-  const [car, setCar] = useState([]);
+  const [cart, setCart] = useState([]);
 
   const addToCart = (item) => {
-    const itemExists = car.findIndex((guitar) => guitar.id === item.id);
+    const itemExists = cart.findIndex((guitar) => guitar.id === item.id);
 
     if (itemExists >= 0) {
-      const updatedCart = [...car];
+      const updatedCart = [...cart];
       updatedCart[itemExists].quantity++;
-      setCar(updatedCart);
+      setCart(updatedCart);
     } else {
       item.quantity = 1;
-      setCar((prev) => [...prev, item]);
+      setCart((prev) => [...prev, item]);
     }
   };
 
   return (
     <>
-      <Header />
+      <Header cart={cart}/>
 
       <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>
