@@ -5,6 +5,7 @@ const Header = ({
   deleteFromCart,
   increaseQuantity,
   decreaseQuantity,
+  clearCart,
 }) => {
   const isEmpty = useMemo(() => cart.length === 0, [cart]);
   const totalCart = useMemo(
@@ -93,7 +94,10 @@ const Header = ({
                     <p className="text-end">
                       Total pagar: <span className="fw-bold">{totalCart}</span>
                     </p>
-                    <button className="btn btn-dark w-100 mt-3 p-2">
+                    <button
+                      className="btn btn-dark w-100 mt-3 p-2"
+                      onClick={clearCart}
+                    >
                       Vaciar Carrito
                     </button>
                   </>
