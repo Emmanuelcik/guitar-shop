@@ -1,15 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Guitar from "./components/Guitar";
 import Header from "./components/Header";
 import guitars from "./data";
 
 const App = () => {
+  const intialCarState = () => {
+    const localStorageContent = localStorage.getItem("cart");
+    return localStorageContent ? JSON.parse(localStorageContent) : [];
+  };
   const [data, setData] = useState(() => guitars);
 
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(intialCarState);
 
   const NAX_LIMIT_ITEMS = 10;
   const MIN_LIMIT_ITEMS = 1;
+
+  useEffect(() => {
+    saveDataToLocalStorage();
+  }, [cart]);
+
   const addToCart = (item) => {
     const itemExists = cart.findIndex((guitar) => guitar.id === item.id);
 
@@ -38,6 +47,7 @@ const App = () => {
       return item;
     });
     setCart(updatedCart);
+    saveDataToLocalStorage();
   };
   const decreaseQuantity = (id) => {
     const updatedCart = cart.map((item) => {
@@ -50,10 +60,15 @@ const App = () => {
       return item;
     });
     setCart(updatedCart);
+    saveDataToLocalStorage();
   };
 
   const clearCart = () => {
     setCart([]);
+  };
+
+  const saveDataToLocalStorage = () => {
+    localStorage.setItem("cart", JSON.stringify(cart));
   };
 
   return (
