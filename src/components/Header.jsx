@@ -1,6 +1,11 @@
 import { useMemo } from "react";
 
-const Header = ({ cart }) => {
+const Header = ({
+  cart,
+  deleteFromCart,
+  increaseQuantity,
+  decreaseQuantity,
+}) => {
   const isEmpty = useMemo(() => cart.length === 0, [cart]);
   const totalCart = useMemo(
     () => cart.reduce((acc, cur) => acc + cur.quantity * cur.price, 0),
@@ -15,7 +20,7 @@ const Header = ({ cart }) => {
             <a href="index.html">
               <img
                 className="img-fluid"
-                src="./public/img/logo.svg"
+                src="/img/logo.svg"
                 alt="imagen logo"
               />
             </a>
@@ -24,7 +29,7 @@ const Header = ({ cart }) => {
             <div className="carrito">
               <img
                 className="img-fluid"
-                src="./public/img/carrito.png"
+                src="/img/carrito.png"
                 alt="imagen carrito"
               />
 
@@ -56,16 +61,28 @@ const Header = ({ cart }) => {
                             <td>{guitar?.name}</td>
                             <td className="fw-bold">{guitar?.price}</td>
                             <td className="flex align-items-start gap-4">
-                              <button type="button" className="btn btn-dark">
+                              <button
+                                type="button"
+                                className="btn btn-dark"
+                                onClick={() => decreaseQuantity(guitar?.id)}
+                              >
                                 -
                               </button>
                               {guitar?.quantity}
-                              <button type="button" className="btn btn-dark">
+                              <button
+                                type="button"
+                                className="btn btn-dark"
+                                onClick={() => increaseQuantity(guitar?.id)}
+                              >
                                 +
                               </button>
                             </td>
                             <td>
-                              <button className="btn btn-danger" type="button">
+                              <button
+                                className="btn btn-danger"
+                                type="button"
+                                onClick={() => deleteFromCart(guitar?.id)}
+                              >
                                 X
                               </button>
                             </td>
@@ -74,8 +91,7 @@ const Header = ({ cart }) => {
                       </tbody>
                     </table>
                     <p className="text-end">
-                      Total pagar:{" "}
-                      <span className="fw-bold">{totalCart}</span>
+                      Total pagar: <span className="fw-bold">{totalCart}</span>
                     </p>
                     <button className="btn btn-dark w-100 mt-3 p-2">
                       Vaciar Carrito
